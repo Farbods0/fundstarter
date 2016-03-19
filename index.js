@@ -1,17 +1,10 @@
 var http = require('http');
 var fs = require('fs');
-var port = process.env.PORT || 8080
-http.createServer(function (request, response) {
-	fs.readFile('index.html', function(error, content) {
-		if (error) {
-			response.writeHead(500);
-			response.end();
-		}
-		else {
-			response.writeHead(200, { 'Content-Type': 'text/html' });
-			response.end(content, 'utf-8');
-		}
-	});
-	
-}).listen(port);
-console.log('Server running on port: ', port);
+var index = 'index.html';
+function FundStarter(req, res) {
+  var content = fs.readFileSync('index.html');
+  res.writeHeader(200, { 'Content-Type': 'text/html' });
+  res.write(content);
+  res.end();
+}
+http.createServer(FundStarter).listen(process.env.PORT || 8000);
